@@ -1,0 +1,73 @@
+# ========== Python ==========
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+eggs/
+*.whl
+sdist/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Install / editable installs
+*.egg-link
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ========== IDE & Editor ==========
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+.classpath
+
+# ========== OS ==========
+.DS_Store
+Thumbs.db
+desktop.ini
+*.lnk
+
+# ========== Logs ==========
+*.log
+log/
+
+# ========== Data & Config (sensitive / large) ==========
+config.yaml
+data/
+tmp.txt
+
+# ========== Testing ==========
+test/
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# ========== Misc ==========
+*.bak
+*.tmp
+*.temp
+.env
+.env.*
+
+
+# ------------
+data/
+log/
+addons/
+test/
+__pycache__/
+__init__.py

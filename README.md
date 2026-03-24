@@ -6,6 +6,8 @@
 
 HI-MISRA is a research project that leverages Large Language Models (LLMs) to detect MISRA C rule violations in C/C++ code and synthesize safer alternatives. It integrates with [Cppcheck](https://cppcheck.sourceforge.io/) for static analysis and supports multiple LLM backends (OpenAI, DeepSeek, Gemini, Claude) for intelligent code reasoning.
 
+![HI-MISRA Workflow](figures/workflow.png)
+
 ## Project Structure
 
 ```
@@ -17,20 +19,19 @@ HI-MISRA/
 │   │   ├── check_humaneval_cpp.py
 │   │   ├── check_leetcode_cpp.py
 │   │   └── check_codeflow_bench.py
-│   ├── codeflowbench/         # CodeFlowBench evaluation
+│   ├── pipeline/              # Code generation & refinement pipeline
 │   │   ├── generate/          # Code generation pipeline
 │   │   └── refine/            # Iterative refinement pipeline
 │   ├── knowledge_build/       # MISRA knowledge construction
-│   │   ├── check_misra.py     # MISRA rule checking
-│   │   └── explain_misra.py   # MISRA rule explanation generation
+│   │   ├── check_misra.py     # Knowledge quality check & retry
+│   │   └── explain_misra.py   # Rule explanation generation
 │   ├── utils/                 # Shared utilities
 │   │   ├── logger_util.py     # Logging utilities
 │   │   ├── json_util.py       # JSON I/O helpers
-│   │   ├── format_codeflow.py # CodeFlowBench data formatting
 │   │   └── refine_util.py     # Refinement utilities
 │   └── model_config.py        # LLM API configuration (env-based)
 ├── srcipt/                    # Shell scripts for batch experiments
-│   ├── codeflowbench/
+│   ├── pipeline/
 │   ├── humanevalx/
 │   ├── knowledge_build/
 │   ├── codeflaws/
@@ -70,21 +71,19 @@ export GEMINI_API_KEY="your-key"
 export CLAUDE_API_KEY="your-key"
 ```
 
-## Key Modules
+## Knowledge Build (`src/knowledge_build`)
 
-### Knowledge Build (`src/knowledge_build`)
-
-MISRA C 规则知识库的自动构建模块，整体流程：
+Automated construction module for the MISRA C rule knowledge base. The overall pipeline:
 
 ```
-misra.txt ──→ explain_misra.py ──→ misra_explaination.json ──→ check_misra.py ──→ 质量修复后的 JSON
- (规则文本)     (批量 LLM 生成)         (知识库)                (质量检查+重试)
+misra.txt ──→ explain_misra.py ──→ misra_explaination.json ──→ check_misra.py ──→ Quality-checked JSON
+ (rule text)    (batch LLM gen)       (knowledge base)          (quality check + retry)
 ```
 
-- **`explain_misra.py`** — 读取 MISRA C 规则文本，多线程并发调用 LLM，为每条规则生成结构化解释（详细说明、违规代码示例、合规代码示例），每 20 条自动保存防止中断丢失。
-- **`check_misra.py`** — 扫描已生成的知识库，自动检测异常条目（解析失败、字段缺失等）并调用 LLM 重新生成，支持 `--check_only` 仅检查模式和 `--retry_id` 指定规则重试。
+- **`explain_misra.py`** — Reads MISRA C rule text, calls LLM concurrently with multi-threading to generate structured explanations for each rule (detailed description, non-compliant code examples, and compliant code examples). Auto-saves every 20 rules to prevent data loss on interruption.
+- **`check_misra.py`** — Scans the generated knowledge base, automatically detects abnormal entries (parse failures, missing fields, etc.) and re-generates them via LLM. Supports `--check_only` mode for inspection only and `--retry_id` for targeted rule retry.
 
-生成的知识库在代码修复流程（`codeflowbench/refine`）中为 LLM 提供 MISRA 规则的详细解释和正反例参考。
+The generated knowledge base provides MISRA rule explanations and compliant/non-compliant examples as reference context for the LLM during the code refinement pipeline (`pipeline/refine`).
 
 ## License
 
