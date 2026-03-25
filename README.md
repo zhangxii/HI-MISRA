@@ -135,11 +135,9 @@ bash srcipt/pipeline/refine_pipeline.sh --explain --max-iters 5 --no-reuse 0
 |-------|-------------|------------|
 | 0 | OpenAI | gpt-5-mini |
 | 1 | OpenAI | gpt-5 |
-| 2 | DeepSeek | deepseek-reasoner |
-| 3 | Gemini | gemini-2.5-flash |
-| 4 | Claude | claude-3-7-sonnet-20250219 |
-| 5 | DeepSeek | deepseek-chat |
-| 6 | DeepSeek | deepseek-v3.1-250821 |
+| 2 | Gemini | gemini-2.5-flash |
+| 3 | Claude | claude-3-7-sonnet-20250219 |
+| 4 | DeepSeek | deepseek-chat |
 
 ## License
 

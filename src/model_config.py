@@ -24,7 +24,7 @@ MODELS_CONFIG = {
     "deepseek": {
         "api_key": os.getenv("DEEPSEEK_API_KEY", "your-api-key-here"),
         "base_url": os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com"),
-        "model_name": "deepseek-reasoner"
+        "model_name": "deepseek-chat"
     },
     "gemini": {
         "api_key": os.getenv("GEMINI_API_KEY", "your-api-key-here"),

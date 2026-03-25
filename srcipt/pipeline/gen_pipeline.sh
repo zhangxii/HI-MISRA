@@ -16,8 +16,8 @@ set -e
 set -o pipefail
 
 # ============== Model Configuration ==============
-MODEL_FAMILYS=("openai" "openai" "deepseek" "gemini" "claude"  "deepseek" "deepseek" )
-MODEL_NAMES=("gpt-5-mini" "gpt-5" "deepseek-reasoner"  "gemini-2.5-flash" "claude-3-7-sonnet-20250219" "deepseek-chat" "deepseek-v3.1-250821")
+MODEL_FAMILYS=("openai" "openai" "gemini" "claude" "deepseek")
+MODEL_NAMES=("gpt-5-mini" "gpt-5" "gemini-2.5-flash" "claude-3-7-sonnet-20250219" "deepseek-chat")
 
 # ============== Parameters and defaults ==============
 if [ "$#" -eq 0 ]; then
